@@ -1,9 +1,16 @@
 const express =  require('express')
 const routesProduct = express.Router()
+const ClassProd = require ('../class/classProd')
 
+const storProd = new ClassProd()
 
-routesProduct.get('/', (req, res) => {
-          res.send("hola")
+routesProduct.get('/', async (req, res) => {
+        try {
+            const products = await storProd.getAll()
+            res.status(200).json(products)
+        } catch(error){
+            res.status(500).json({error: error.message})
+        }
     })
 
 module.exports = routesProduct

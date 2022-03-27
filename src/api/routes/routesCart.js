@@ -3,7 +3,7 @@ const myRoutes = express.Router()
 
 
 myRoutes.get('/', (req, res) => {
-          res.send('hello');
+          res.send('hola soy carrito');
     })
 
 module.exports = myRoutes
