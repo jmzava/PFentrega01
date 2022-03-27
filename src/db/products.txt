@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "timestamp": "03/27/2022 6:09:01 PM",
+    "nombre": "pepito ",
+    "codigo": "1",
+    "precio": "125"
+  },
+  {
+    "id": 3,
+    "timestamp": "03/27/2022 6:18:46 PM",
+    "nombre": "pepito 3",
+    "codigo": "153",
+    "precio": "125555"
+  },
+  {
+    "id": 4,
+    "timestamp": "03/27/2022 6:09:23 PM",
+    "nombre": "pepito 4",
+    "codigo": "15",
+    "precio": "125"
+  },
+  {
+    "id": 5,
+    "timestamp": "03/27/2022 6:09:05 PM",
+    "nombre": "pepito ",
+    "codigo": "1",
+    "precio": "125"
+  },
+  {
+    "id": 6,
+    "timestamp": "03/27/2022 6:09:06 PM",
+    "nombre": "pepito ",
+    "codigo": "1",
+    "precio": "125"
+  }
+]

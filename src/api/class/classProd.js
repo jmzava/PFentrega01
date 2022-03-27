@@ -1,14 +1,14 @@
 const fs = require('fs').promises;
+const moment = require('momnet')
 
 class ProductContainer {
   constructor() {
-    this.filePath = "./products.txt";
+    this.filePath = './src/db/products.txt';
     this.data = [];
     this.id = 0;
   }
   async getAll() {
     try {
-        console.log(this.filePath)
         const data = await fs.readFile(this.filePath, "utf-8");  
         if (data) {
             this.data = JSON.parse(data); 
@@ -17,18 +17,20 @@ class ProductContainer {
         }
     } catch (error) {
         if (error.code == 'ENOENT'){
-            await fs.promises.writeFile(this.filePath, '')
+            await fs.writeFile(this.filePath, '')
         return []
         }
         throw new Error(`Error no capturado: ${error.message}`)
         }
   }
+
   async saveProduct(product){
+    await this.getAll();
     try{
-        this.productId++
+        this.id++
         const addNewProduct = {
-          id: this.productId,  
-          timestamp: product.timestamp,
+          id: this.id,  
+          timestamp: moment().format('L LTS'),
           nombre: product.nombre,
           descripcion: product.descripcion,
           codigo: product.codigo,
@@ -36,7 +38,8 @@ class ProductContainer {
           precio: product.precio,
           stock: product.stock
          }
-        this.product.push(addNewProduct)
+        this.data.push(addNewProduct)
+        await fs.writeFile(this.filePath, JSON.stringify(this.data, null, 2));
         return addNewProduct
     } catch(error){
         throw new Error("Se produjo un error al guardar el producto : " +  error.message)
@@ -46,10 +49,9 @@ class ProductContainer {
   async getById(id) {
     await this.getAll();
     try {
-      const productById = this.data.find((prod) => prod.id === id);
+        const productById = this.data.find((prod) => prod.id === parseInt(id));
       if (productById) {
-        console.log("Producto encontrado:\n ");
-        console.log(productById);
+          return productById
       } else {
         console.log(`No se encontro el producto con id: ${id}`);
       }
@@ -57,6 +59,53 @@ class ProductContainer {
       console.log("Error " + error);
     }
   }  
+
+  async  updateProduct(id, product) {
+    await this.getAll();
+    try {
+        const productById = this.data.find((prod) => prod.id === parseInt(id));
+      if (productById) {
+        const updProduct = {
+          id: id, 
+          timestamp: moment().format('L LTS'),
+          nombre: product.nombre,
+          descripcion: product.descripcion,
+          codigo: product.codigo,
+          foto: product.foto,
+          precio: product.precio,
+          stock: product.stock
+        }
+          const findIndex = this.data.findIndex((prod) => prod.id === id)
+          this.data[findIndex] = updProduct
+          await fs.writeFile(this.filePath, JSON.stringify(this.data, null, 2));
+          return updProduct
+      } else {
+        console.log(`No se encontro el producto con id: ${id}`);
+      }
+    } catch (error) {
+      console.log("Error " + error);
+    }
+  }
+    
+  async deleteById(id) {
+    await this.getAll();
+    try {
+      const deleteIndex = this.data.findIndex((product) => product.id === id);
+      if (deleteIndex === -1 ){
+          console.log("Id no encontrado; ");
+      } else{
+          const deleteData = this.data.splice(deleteIndex,1)
+          await fs.writeFile(
+                  this.filePath,
+                  JSON.stringify(this.data, null, 2)
+                );
+      }
+      } catch (error) {
+      console.log("Error " + error);
+    }
+  }
+
+  
 }
 
 module.exports = ProductContainer
