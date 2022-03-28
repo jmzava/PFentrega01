@@ -25,8 +25,8 @@ class ProductContainer {
   }
 
   async saveProduct(product){
-    await this.getAll();
     try{
+      await this.getAll();
         this.id++
         const addNewProduct = {
           id: this.id,  
@@ -47,8 +47,8 @@ class ProductContainer {
   }
 
   async getById(id) {
-    await this.getAll();
     try {
+      await this.getAll();
         const productById = this.data.find((prod) => prod.id === parseInt(id));
       if (productById) {
           return productById
@@ -61,8 +61,8 @@ class ProductContainer {
   }  
 
   async  updateProduct(id, product) {
-    await this.getAll();
     try {
+      await this.getAll();
         const productById = this.data.find((prod) => prod.id === parseInt(id));
       if (productById) {
         const updProduct = {
@@ -88,8 +88,8 @@ class ProductContainer {
   }
     
   async deleteById(id) {
-    await this.getAll();
     try {
+      await this.getAll();
       const deleteIndex = this.data.findIndex((product) => product.id === id);
       if (deleteIndex === -1 ){
           console.log("Id no encontrado; ");

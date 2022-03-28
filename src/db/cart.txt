@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "timestamp": "03/27/2022 10:00:35 PM",
+    "productos": [
+      {
+        "id": 3,
+        "timestamp": "03/27/2022 6:18:46 PM",
+        "nombre": "pepito 3",
+        "codigo": "153",
+        "precio": "125555"
+      },
+      {
+        "id": 3,
+        "timestamp": "03/27/2022 6:18:46 PM",
+        "nombre": "pepito 3",
+        "codigo": "153",
+        "precio": "125555"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "timestamp": "03/27/2022 10:05:17 PM",
+    "productos": []
+  }
+]

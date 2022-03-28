@@ -1,19 +1,16 @@
 const express =  require('express')
-// const { routes } = require('../../app')
 const routesProduct = express.Router()
 const ClassProd = require ('../class/classProd')
-
+const isAdmin = require('../middleware/login').isAdmin;
+const admin = Boolean(true)
 
 const statusOk = 200
 const statusCreated = 201
 const statusErrClient = 400
 const statusNotFound = 404
+const statusErrUser = 401
 const statusErrServer = 500
 
-
-// const roleValidate = (req, res, next )=>{
-    
-// }
 
 const storProd = new ClassProd()
 
@@ -40,7 +37,7 @@ routesProduct
         }
     })
 
-    .post('/', async (req, res) => {
+    .post('/', isAdmin(admin), async (req, res) => {
         try {
             if (req.body.nombre){
                 const product = await storProd.saveProduct(req.body)
@@ -53,7 +50,7 @@ routesProduct
         }
     })
 
-    .put('/:idProduct', async (req, res) => {
+    .put('/:idProduct', isAdmin(admin), async (req, res) => {
         try {
            
             const product = await storProd.getById(req.params.idProduct)
@@ -74,7 +71,7 @@ routesProduct
             res.status(statusErrServer).json({error: error.message})
         }
   })
-    .delete('/:idProduct', async (req, res) => {
+    .delete('/:idProduct',  isAdmin(admin),async (req, res) => {
         try {
             const product = await storProd.getById(req.params.idProduct)
             if (product){
@@ -90,5 +87,29 @@ routesProduct
             res.status(statusErrServer).json({error: error.message})
         }
     })
+    delete('/:id/productos/:idProduct', async (req, res) => {
+        try{
+            const cart = await storCart.getCartById(req.params.id)
+            if (cart){
+ 
+                const deleteIndex = cart.productos.findIndex((prod) => prod.id === Number(req.params.idProduct))
+ 
+                if (deleteIndex === -1){
+                    console.log('no se encuentra')
+                }else{
+                    const deleteData = cart.productos.splice(deleteIndex,1)
+                }
+ 
+                await storCart.addProdtoCart(cart, cart.id)
+                res.status(statusOk).json(cart)
+            }else{
+                res.status(statusNotFound).json({error: 'carrito no encontrado'})
+            }
+        }catch(e){
+ 
+        }
+    })
+
+
 
 module.exports = routesProduct
