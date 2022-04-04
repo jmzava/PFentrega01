@@ -13,8 +13,7 @@ const statusErrServer = 500
 storCart = new ClassCart()
 storProd = new ClassProd()
 
-routesCart
-    .get('/', async (req, res) => {
+routesCart.get('/', async (req, res) => {
         try {
             const cart = await storCart.getAll()
             res.status(statusOk).json(cart)
@@ -22,7 +21,7 @@ routesCart
             res.status(statusErrServer).json({error: error.message})
         }
     })
-    .post('/', async (req, res) =>{
+routesCart.post('/', async (req, res) =>{
         try {
             const cart = await storCart.saveCart()
             res.status(statusOk).json(cart)
@@ -30,7 +29,7 @@ routesCart
             res.status(statusErrServer).json({error: error.message})
         }
     })
-    .delete('/:id', async (req, res) => {
+routesCart.delete('/:id', async (req, res) => {
         try {
             const cart = await storCart.getCartById(req.params.id)
             if (cart){
@@ -47,7 +46,7 @@ routesCart
         }
     })
     
-    .post('/:id/productos/:idProduct', async (req, res) => {
+routesCart.post('/:id/productos/:idProduct', async (req, res) => {
         try{
             const cart = await storCart.getCartById(req.params.id)
             if (cart){
@@ -62,7 +61,7 @@ routesCart
                 res.status(statusErrServer).json({e: e.message})
             }
         })
-    .get('/:id/productos', async (req, res) =>{
+routesCart.get('/:id/productos', async (req, res) =>{
         try{
             const cart = await storCart.getCartById(req.params.id)
             if (cart){
@@ -75,7 +74,7 @@ routesCart
             res.status(statusErrServer).json({e: e.message})
         }
     })
-    .delete('/:id/productos/:idProduct', async (req, res) => {
+routesCart.delete('/:id/productos/:idProduct', async (req, res) => {
         try{
             const cart = await storCart.getCartById(req.params.id)
             if (cart){

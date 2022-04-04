@@ -14,8 +14,7 @@ const statusErrServer = 500
 
 const storProd = new ClassProd()
 
-routesProduct
-    .get('/', async (req, res) => {
+routesProduct.get('/', async (req, res) => {
         try {
             const products = await storProd.getAll()
             res.status(statusOk).json(products)
@@ -24,7 +23,7 @@ routesProduct
         }
     })
 
-    .get('/:idProduct', async (req, res) => {
+routesProduct.get('/:idProduct', async (req, res) => {
         try {
             const product = await storProd.getById(req.params.idProduct)
             if (product){
@@ -37,7 +36,7 @@ routesProduct
         }
     })
 
-    .post('/', isAdmin(admin), async (req, res) => {
+routesProduct.post('/', isAdmin(admin), async (req, res) => {
         try {
             if (req.body.nombre){
                 const product = await storProd.saveProduct(req.body)
@@ -50,7 +49,7 @@ routesProduct
         }
     })
 
-    .put('/:idProduct', isAdmin(admin), async (req, res) => {
+routesProduct.put('/:idProduct', isAdmin(admin), async (req, res) => {
         try {
            
             const product = await storProd.getById(req.params.idProduct)
@@ -71,7 +70,8 @@ routesProduct
             res.status(statusErrServer).json({error: error.message})
         }
   })
-    .delete('/:idProduct',  isAdmin(admin),async (req, res) => {
+
+routesProduct.delete('/:idProduct',  isAdmin(admin),async (req, res) => {
         try {
             const product = await storProd.getById(req.params.idProduct)
             if (product){
@@ -87,29 +87,5 @@ routesProduct
             res.status(statusErrServer).json({error: error.message})
         }
     })
-    delete('/:id/productos/:idProduct', async (req, res) => {
-        try{
-            const cart = await storCart.getCartById(req.params.id)
-            if (cart){
- 
-                const deleteIndex = cart.productos.findIndex((prod) => prod.id === Number(req.params.idProduct))
- 
-                if (deleteIndex === -1){
-                    console.log('no se encuentra')
-                }else{
-                    const deleteData = cart.productos.splice(deleteIndex,1)
-                }
- 
-                await storCart.addProdtoCart(cart, cart.id)
-                res.status(statusOk).json(cart)
-            }else{
-                res.status(statusNotFound).json({error: 'carrito no encontrado'})
-            }
-        }catch(e){
- 
-        }
-    })
-
-
-
+    
 module.exports = routesProduct
